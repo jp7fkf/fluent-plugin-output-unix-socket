@@ -42,7 +42,7 @@ module Fluent
 
       def initialize()
         super
-        @socket = UNIXSocket.new(@path)
+        #@socket = UNIXSocket.new(@path)
 	#@socket = @server.accept
       end
 
@@ -77,16 +77,32 @@ module Fluent
 	tag = "unix-socket"
         log.debug 'writing data to file', chunk_id: dump_unique_id_hex(chunk.unique_id)
 
-        # For standard chunk format (without `#format()` method)
-        chunk.each do |time, record|
-          puts Time.at(time.to_f, 8).iso8601(8)
-          puts record["message"]
-	  if @socket.closed?
-	    puts '[UNIXSocket]: socket closed!!'
-	    @socket.reopen()
-	  end
-          @socket.write([tag, time.to_f, record["message"]])
-        end
+        #begin
+        #  UNIXSocket.open(@path) { |socket|
+        #    # For standard chunk format (without `#format()` method)
+        #    chunk.each do |time, record|
+        #      puts Time.at(time.to_f, 8).iso8601(8)
+        #      puts record["message"]
+        #      socket.write([tag, time.to_f, record["message"]])
+        #    end
+        #  }
+	#rescue
+        #  puts '[UNIXSocket]: socket error!!'
+	#  #socket.close()
+	#  #socket = nil
+	#  #self.reconnect()
+        #end
+
+
+        UNIXSocket.open(@path) { |socket|
+          # For standard chunk format (without `#format()` method)
+          chunk.each do |time, record|
+            puts Time.at(time.to_f, 8).iso8601(8)
+            puts record["message"]
+            socket.write([tag, time.to_f, record["message"]])
+          end
+        }
+
 
         # For custom format (when `#format()` implemented)
         # File.open(real_path, 'w+')
@@ -96,6 +112,13 @@ module Fluent
         #   chunk.write_to(file)
         # end
       end
+
+      private
+      #def reconnect()
+      #  if @socket.nil? or @socket.closed?
+      #    @socket = UNIXSocket.new(@path)
+      #  end
+      #end
 
     end
   end
