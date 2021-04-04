@@ -81,6 +81,8 @@ module Fluent
 
         UNIXSocket.open(@path) { |socket|
           chunk.each do |time, record|
+            puts Time.at(time.to_f, 8).iso8601(8)
+            puts record["message"]
             socket.write([tag, time.to_f, record["message"]])#.to_msgpack)
           end
         }
