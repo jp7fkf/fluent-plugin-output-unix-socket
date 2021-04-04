@@ -7,9 +7,9 @@ Gem::Specification.new do |spec|
   spec.authors = ["jp7fkf"]
   spec.email   = ["jp7fkf@gmail.com"]
 
-  spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = %q{fluentd output plugin for UNIX socket output.}
+  spec.description   = %q{fluentd output plugin for UNIX socket output.}
+  spec.homepage      = "https://github.com/jp7fkf/fluent-plugin-output-unix-socket"
   spec.license       = "Apache-2.0"
 
   test_files, files  = `git ls-files -z`.split("\x0").partition do |f|
