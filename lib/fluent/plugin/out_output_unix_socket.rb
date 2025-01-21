@@ -54,7 +54,7 @@ module Fluent
       def process(tag, es)
         UNIXSocket.open(@path) { |socket|
           es.each do |time, record|
-            socket.write([tag, time.to_f, record["message"]])
+            socket.write([tag, time.to_f, record["message"]].to_msgpack)
           end
         }
       end
@@ -71,7 +71,7 @@ module Fluent
 
         UNIXSocket.open(@path) { |socket|
           chunk.each do |time, record|
-            socket.write([tag, time.to_f, record["message"]])
+            socket.write([tag, time.to_f, record["message"]].to_msgpack)
           end
         }
       end
