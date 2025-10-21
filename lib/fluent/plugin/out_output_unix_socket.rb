@@ -42,8 +42,8 @@ module Fluent
 
       def start()
         super
-	prefer_buffered_processing()
-	prefer_delayed_commit()
+        prefer_buffered_processing()
+        prefer_delayed_commit()
       end
 
       def shutdown()
@@ -63,9 +63,9 @@ module Fluent
       def write(chunk)
         return if chunk.empty?
 
-	if chunk.metadata.tag.nil?
-	  tag = "unix-socket"
-	else
+        if chunk.metadata.tag.nil?
+          tag = "unix-socket"
+        else
           tag = chunk.metadata.tag
         end
 
